@@ -18,8 +18,8 @@ body::before {
 }
 .hero-section-meal {
     background: linear-gradient(135deg, #ff9a56 0%, #ff6b9d 100%);
-    padding: 4rem 0 3rem 0;
-    margin-bottom: 2rem;
+    padding: 1rem 0 3rem 0;
+    margin-bottom: 1rem;
 }
 
 .btn-danger {

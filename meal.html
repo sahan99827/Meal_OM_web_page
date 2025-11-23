@@ -1,37 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meal Food Hub</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="accest/css/meal.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link href="accest/css/pagination.css" rel="stylesheet">
-</head>
-<body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="index.html">
-                <i class="bi bi-arrow-left me-2"></i>Back to Home
-            </a>
-            <span class="navbar-text text-white">
-                <i class="bi bi-egg-fried me-2"></i>Meal Food Hub
-            </span>
-        </div>
-    </nav>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Meal Food Hub</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet">
+        <link rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="accest/css/meal.css">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <link href="accest/css/pagination.css" rel="stylesheet">
+    </head>
+    <body>
+        <!-- Navbar -->
+        <nav class="navbar navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="index.html">
+                    <i class="bi bi-arrow-left me-2"></i>Back to Home
+                </a>
+                <span class="navbar-text text-white">
+                    <i class="bi bi-egg-fried me-2"></i>Meal Food Hub
+                </span>
+            </div>
+        </nav>
 
-    <!-- Hero Section -->
-    <div class="hero-section-meal">
-        <div class="container">
-            <h1 class="display-3 fw-bold text-white text-center mb-4">🍽️ Meal Food Hub</h1>
-            <p class="lead text-white text-center mb-4">Explore delicious recipes from around the world</p>
+        <!-- Hero Section -->
+        <div class="hero-section-meal">
+            <div class="container">
+                <h1 class="display-3 fw-bold text-white text-center mb-4">
+                    <i class="bi bi-fork-knife"></i> Meal Food Hub</h1>
+                <p class="lead text-white text-center mb-4">Explore delicious
+                    recipes from around the world</p>
+            </div>
         </div>
-    </div>
 
- <!--slider Section-->
+        <!--slider Section-->
         <div id="carouselExampleIndicators" class="carousel slide"
             data-bs-ride="carousel">
             <div class="carousel-indicators">
@@ -48,13 +53,16 @@
             </div>
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img src="accest/img/Food/food1.png" class="d-block w-100" alt="food1" style="height: 700px;">
+                    <img src="accest/img/Food/food1.png" class="d-block w-100"
+                        alt="food1" style="height: 700px;">
                 </div>
                 <div class="carousel-item">
-                    <img src="accest/img/Food/food2.png" class="d-block w-100" alt="food2" style="height: 700px;">
+                    <img src="accest/img/Food/food2.png" class="d-block w-100"
+                        alt="food2" style="height: 700px;">
                 </div>
                 <div class="carousel-item">
-                    <img src="accest/img/Food/food3.png" class="d-block w-100" alt="food3" style="height: 700px;">
+                    <img src="accest/img/Food/food3.png" class="d-block w-100"
+                        alt="food3" style="height: 700px;">
                 </div>
             </div>
             <button class="carousel-control-prev" type="button"
@@ -73,125 +81,153 @@
             </button>
         </div>
 
+        <div class="container py-4">
+            <!-- Search Section -->
+            <div class="card shadow-lg border-0 mb-4">
+                <div class="card-body p-4">
+                    <!-- Tabs -->
+                    <ul class="nav nav-pills nav-fill mb-4" id="searchTabs"
+                        role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="search-tab"
+                                data-bs-toggle="pill" data-bs-target="#search"
+                                type="button">
+                                <i class="bi bi-search me-2"></i>Search
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="random-tab"
+                                data-bs-toggle="pill" data-bs-target="#random"
+                                type="button">
+                                <i class="bi bi-dice-5 me-2"></i>Random
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="category-tab"
+                                data-bs-toggle="pill" data-bs-target="#category"
+                                type="button">
+                                <i class="bi bi-grid me-2"></i>Category
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="area-tab"
+                                data-bs-toggle="pill" data-bs-target="#area"
+                                type="button">
+                                <i class="bi bi-globe me-2"></i>Area
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="ingredient-tab"
+                                data-bs-toggle="pill"
+                                data-bs-target="#ingredient" type="button">
+                                <i class="bi bi-egg me-2"></i>Ingredient
+                            </button>
+                        </li>
+                    </ul>
 
-    <div class="container py-4">
-        <!-- Search Section -->
-        <div class="card shadow-lg border-0 mb-4">
-            <div class="card-body p-4">
-                <!-- Tabs -->
-                <ul class="nav nav-pills nav-fill mb-4" id="searchTabs" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="search-tab" data-bs-toggle="pill" data-bs-target="#search" type="button">
-                            <i class="bi bi-search me-2"></i>Search
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="random-tab" data-bs-toggle="pill" data-bs-target="#random" type="button">
-                            <i class="bi bi-dice-5 me-2"></i>Random
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="category-tab" data-bs-toggle="pill" data-bs-target="#category" type="button">
-                            <i class="bi bi-grid me-2"></i>Category
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="area-tab" data-bs-toggle="pill" data-bs-target="#area" type="button">
-                            <i class="bi bi-globe me-2"></i>Area
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="ingredient-tab" data-bs-toggle="pill" data-bs-target="#ingredient" type="button">
-                            <i class="bi bi-egg me-2"></i>Ingredient
-                        </button>
-                    </li>
-                </ul>
-
-                <!-- Tab Content -->
-                <div class="tab-content" id="searchTabContent">
-                    <!-- Search by Name -->
-                    <div class="tab-pane fade show active" id="search" role="tabpanel">
-                        <div class="row g-3">
-                            <div class="col-lg-10">
-                                <input type="text" class="form-control form-control-lg" id="mealNameInput" 
-                                       placeholder="Search for a specific meal (e.g., Sushi, Pizza, Curry)">
-                            </div>
-                            <div class="col-lg-2">
-                                <button class="btn btn-danger btn-lg w-100" onclick="searchByName()">
-                                    <i class="bi bi-search"></i> Search
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Random Meal -->
-                    <div class="tab-pane fade" id="random" role="tabpanel">
-                        <button class="btn btn-success btn-lg w-100" onclick="getRandomMeal()">
-                            <i class="bi bi-dice-5 me-2"></i>Discover a Random Meal
-                        </button>
-                    </div>
-
-                    <!-- By Category -->
-                    <div class="tab-pane fade" id="category" role="tabpanel">
-                        <div class="row g-3">
-                            <div class="col-lg-10">
-                                <select class="form-select form-select-lg" id="categorySelect" onchange="filterByCategory()">
-                                    <option value="">Select a category...</option>
-                                </select>
+                    <!-- Tab Content -->
+                    <div class="tab-content" id="searchTabContent">
+                        <!-- Search by Name -->
+                        <div class="tab-pane fade show active" id="search"
+                            role="tabpanel">
+                            <div class="row g-3">
+                                <div class="col-lg-10">
+                                    <input type="text"
+                                        class="form-control form-control-lg"
+                                        id="mealNameInput"
+                                        placeholder="Search for a specific meal (e.g., Sushi, Pizza, Curry)">
+                                </div>
+                                <div class="col-lg-2">
+                                    <button class="btn btn-danger btn-lg w-100"
+                                        onclick="searchByName()">
+                                        <i class="bi bi-search"></i> Search
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- By Area -->
-                    <div class="tab-pane fade" id="area" role="tabpanel">
-                        <div class="row g-3">
-                            <div class="col-lg-10">
-                                <select class="form-select form-select-lg" id="areaSelect" onchange="filterByArea()">
-                                    <option value="">Select an area...</option>
-                                </select>
+                        <!-- Random Meal -->
+                        <div class="tab-pane fade" id="random" role="tabpanel">
+                            <button class="btn btn-success btn-lg w-100"
+                                onclick="getRandomMeal()">
+                                <i class="bi bi-dice-5 me-2"></i>Discover a
+                                Random Meal
+                            </button>
+                        </div>
+
+                        <!-- By Category -->
+                        <div class="tab-pane fade" id="category"
+                            role="tabpanel">
+                            <div class="row g-3">
+                                <div class="col-lg-10">
+                                    <select class="form-select form-select-lg"
+                                        id="categorySelect"
+                                        onchange="filterByCategory()">
+                                        <option value>Select a
+                                            category...</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- By Ingredient -->
-                    <div class="tab-pane fade" id="ingredient" role="tabpanel">
-                        <div class="row g-3">
-                            <div class="col-lg-10">
-                                <input type="text" class="form-control form-control-lg" id="ingredientInput" 
-                                       placeholder="Enter main ingredient (e.g., chicken, rice, salmon)">
+                        <!-- By Area -->
+                        <div class="tab-pane fade" id="area" role="tabpanel">
+                            <div class="row g-3">
+                                <div class="col-lg-10">
+                                    <select class="form-select form-select-lg"
+                                        id="areaSelect"
+                                        onchange="filterByArea()">
+                                        <option value>Select an area...</option>
+                                    </select>
+                                </div>
                             </div>
-                            <div class="col-lg-2">
-                                <button class="btn btn-danger btn-lg w-100" onclick="filterByIngredient()">
-                                    <i class="bi bi-search"></i> Search
-                                </button>
+                        </div>
+
+                        <!-- By Ingredient -->
+                        <div class="tab-pane fade" id="ingredient"
+                            role="tabpanel">
+                            <div class="row g-3">
+                                <div class="col-lg-10">
+                                    <input type="text"
+                                        class="form-control form-control-lg"
+                                        id="ingredientInput"
+                                        placeholder="Enter main ingredient (e.g., chicken, rice, salmon)">
+                                </div>
+                                <div class="col-lg-2">
+                                    <button class="btn btn-danger btn-lg w-100"
+                                        onclick="filterByIngredient()">
+                                        <i class="bi bi-search"></i> Search
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <!-- Meals Container -->
+            <div id="mealsContainer"></div>
         </div>
 
-        <!-- Meals Container -->
-        <div id="mealsContainer"></div>
-    </div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="mealModal" tabindex="-1">
-        <div class="modal-dialog modal-lg modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header bg-danger text-white">
-                    <div>
-                        <h3 class="modal-title" id="modalTitle"></h3>
-                        <div id="modalMeta"></div>
+        <!-- Modal -->
+        <div class="modal fade" id="mealModal" tabindex="-1">
+            <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                        <div>
+                            <h3 class="modal-title" id="modalTitle"></h3>
+                            <div id="modalMeta"></div>
+                        </div>
+                        <button type="button" class="btn-close btn-close-white"
+                            data-bs-dismiss="modal"></button>
                     </div>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    <div class="modal-body" id="modalBody"></div>
                 </div>
-                <div class="modal-body" id="modalBody"></div>
             </div>
         </div>
-    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="accest/Js/meal.js"></script>
-</body>
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="accest/Js/meal.js"></script>
+    </body>
 </html>

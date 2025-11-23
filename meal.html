@@ -3,25 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recipe Finder - TheMealDB</title>
+    <title>Meal Food Hub</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="accest/css/meal.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="accest/css/pagination.css" rel="stylesheet">
 </head>
 <body>
-    <!-- Back Button -->
-    <a href="index.html" class="btn btn-light back-button shadow">
-        <i class="bi bi-arrow-left me-2"></i>Back to Home
-    </a>
+    <!-- Navbar -->
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <i class="bi bi-arrow-left me-2"></i>Back to Home
+            </a>
+            <span class="navbar-text text-white">
+                <i class="bi bi-egg-fried me-2"></i>Meal Food Hub
+            </span>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-section-meal">
+        <div class="container">
+            <h1 class="display-3 fw-bold text-white text-center mb-4">🍽️ Meal Food Hub</h1>
+            <p class="lead text-white text-center mb-4">Explore delicious recipes from around the world</p>
+        </div>
+    </div>
 
     <div class="container py-4">
-        <!-- Header -->
-        <div class="text-center text-white mb-4 mt-3">
-            <h1 class="display-4 fw-bold">🍽️ Recipe Finder</h1>
-            <p class="lead">Discover delicious meals from around the world</p>
-        </div>
-
         <!-- Search Section -->
         <div class="card shadow-lg border-0 mb-4">
             <div class="card-body p-4">
@@ -29,27 +39,27 @@
                 <ul class="nav nav-pills nav-fill mb-4" id="searchTabs" role="tablist">
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="search-tab" data-bs-toggle="pill" data-bs-target="#search" type="button">
-                            <i class="bi bi-search me-2"></i>Search by Name
+                            <i class="bi bi-search me-2"></i>Search
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="random-tab" data-bs-toggle="pill" data-bs-target="#random" type="button">
-                            <i class="bi bi-dice-5 me-2"></i>Random Meal
+                            <i class="bi bi-dice-5 me-2"></i>Random
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="category-tab" data-bs-toggle="pill" data-bs-target="#category" type="button">
-                            <i class="bi bi-grid me-2"></i>By Category
+                            <i class="bi bi-grid me-2"></i>Category
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="area-tab" data-bs-toggle="pill" data-bs-target="#area" type="button">
-                            <i class="bi bi-globe me-2"></i>By Area
+                            <i class="bi bi-globe me-2"></i>Area
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="ingredient-tab" data-bs-toggle="pill" data-bs-target="#ingredient" type="button">
-                            <i class="bi bi-egg me-2"></i>By Ingredient
+                            <i class="bi bi-egg me-2"></i>Ingredient
                         </button>
                     </li>
                 </ul>
@@ -61,10 +71,10 @@
                         <div class="row g-3">
                             <div class="col-lg-10">
                                 <input type="text" class="form-control form-control-lg" id="mealNameInput" 
-                                       placeholder="Enter meal name (e.g., Salmon, Pasta, Chicken)">
+                                       placeholder="Search for a specific meal (e.g., Sushi, Pizza, Curry)">
                             </div>
                             <div class="col-lg-2">
-                                <button class="btn btn-primary btn-lg w-100" onclick="searchByName()">
+                                <button class="btn btn-danger btn-lg w-100" onclick="searchByName()">
                                     <i class="bi bi-search"></i> Search
                                 </button>
                             </div>
@@ -82,14 +92,9 @@
                     <div class="tab-pane fade" id="category" role="tabpanel">
                         <div class="row g-3">
                             <div class="col-lg-10">
-                                <select class="form-select form-select-lg" id="categorySelect">
+                                <select class="form-select form-select-lg" id="categorySelect" onchange="filterByCategory()">
                                     <option value="">Select a category...</option>
                                 </select>
-                            </div>
-                            <div class="col-lg-2">
-                                <button class="btn btn-primary btn-lg w-100" onclick="filterByCategory()">
-                                    <i class="bi bi-filter"></i> Browse
-                                </button>
                             </div>
                         </div>
                     </div>
@@ -98,14 +103,9 @@
                     <div class="tab-pane fade" id="area" role="tabpanel">
                         <div class="row g-3">
                             <div class="col-lg-10">
-                                <select class="form-select form-select-lg" id="areaSelect">
+                                <select class="form-select form-select-lg" id="areaSelect" onchange="filterByArea()">
                                     <option value="">Select an area...</option>
                                 </select>
-                            </div>
-                            <div class="col-lg-2">
-                                <button class="btn btn-primary btn-lg w-100" onclick="filterByArea()">
-                                    <i class="bi bi-filter"></i> Browse
-                                </button>
                             </div>
                         </div>
                     </div>
@@ -115,10 +115,10 @@
                         <div class="row g-3">
                             <div class="col-lg-10">
                                 <input type="text" class="form-control form-control-lg" id="ingredientInput" 
-                                       placeholder="Enter main ingredient (e.g., chicken, rice, tomato)">
+                                       placeholder="Enter main ingredient (e.g., chicken, rice, salmon)">
                             </div>
                             <div class="col-lg-2">
-                                <button class="btn btn-primary btn-lg w-100" onclick="filterByIngredient()">
+                                <button class="btn btn-danger btn-lg w-100" onclick="filterByIngredient()">
                                     <i class="bi bi-search"></i> Search
                                 </button>
                             </div>
@@ -136,7 +136,7 @@
     <div class="modal fade" id="mealModal" tabindex="-1">
         <div class="modal-dialog modal-lg modal-dialog-scrollable">
             <div class="modal-content">
-                <div class="modal-header bg-primary text-white">
+                <div class="modal-header bg-danger text-white">
                     <div>
                         <h3 class="modal-title" id="modalTitle"></h3>
                         <div id="modalMeta"></div>

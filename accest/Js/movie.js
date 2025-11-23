@@ -1,9 +1,194 @@
 const API_KEY = '1c768e4f';
 
+const POPULAR_MOVIES = [
+    'Inception', 'The Dark Knight', 'Interstellar', 'Pulp Fiction', 'The Matrix',
+    'Fight Club', 'Forrest Gump', 'The Godfather', 'The Shawshank Redemption', 
+    'Titanic', 'Avatar', 'The Avengers', 'Jurassic Park', 'Star Wars', 'The Lion King',
+    'Gladiator', 'The Lord of the Rings', 'Harry Potter', 'Iron Man', 'Spider-Man',
+    'Batman Begins', 'The Prestige', 'Memento', 'The Departed', 'Good Will Hunting',
+    'Cast Away', 'Saving Private Ryan', 'Schindler\'s List', 'The Green Mile', 'Catch Me If You Can',
+    'The Wolf of Wall Street', 'Django Unchained', 'Inglourious Basterds', 'Kill Bill',
+    'The Terminator', 'Aliens', 'Blade Runner', 'The Fifth Element', 'Back to the Future',
+    'Raiders of the Lost Ark', 'Die Hard', 'Mad Max', 'Rocky', 'Rambo', 'Joker',
+    'Parasite', 'Get Out', 'A Quiet Place', 'Dunkirk', 'Whiplash', 'La La Land'
+];
+
+let allMovies = [];
+let currentPage = 1;
+const itemsPerPage = 12;
+
+document.addEventListener('DOMContentLoaded', () => {
+    loadPopularMovies();
+});
+
 document.getElementById('fetchButton').addEventListener('click', getMovieData);
 document.getElementById('movieInput').addEventListener('keypress', function(e) {
     if (e.key === 'Enter') getMovieData();
 });
+
+async function loadPopularMovies() {
+    const output = document.getElementById('movieInfo');
+    output.innerHTML = `
+        <div class="text-center mb-4">
+            <h3>Popular Movies</h3>
+            <p class="text-muted">Click on any movie to see details</p>
+        </div>
+        <div class="movies-grid" id="moviesGrid"></div>
+    `;
+
+    const grid = document.getElementById('moviesGrid');
+
+    for (let i = 0; i < 12; i++) {
+        grid.innerHTML += `
+            <div class="movie-card-grid">
+                <div class="placeholder-glow">
+                    <div class="placeholder bg-secondary" style="height: 300px; width: 100%;"></div>
+                </div>
+                <div class="movie-info-grid">
+                    <div class="placeholder-glow">
+                        <span class="placeholder col-12"></span>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+
+    const moviePromises = POPULAR_MOVIES.map(title => 
+        fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&t=${encodeURIComponent(title)}`)
+            .then(res => res.json())
+            .catch(err => null)
+    );
+
+    const movies = await Promise.all(moviePromises);
+    allMovies = movies.filter(m => m && m.Response !== 'False');
+
+    displayMoviesWithPagination();
+}
+
+function displayMoviesWithPagination() {
+    const output = document.getElementById('movieInfo');
+    const totalPages = Math.ceil(allMovies.length / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const currentMovies = allMovies.slice(startIndex, endIndex);
+
+    output.innerHTML = `
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h3>Popular Movies</h3>
+                <p class="text-muted mb-0">Showing ${startIndex + 1}-${Math.min(endIndex, allMovies.length)} of ${allMovies.length} movies</p>
+            </div>
+            <div class="text-muted">
+                Page ${currentPage} of ${totalPages}
+            </div>
+        </div>
+        <div class="movies-grid" id="moviesGrid"></div>
+        <div id="paginationContainer"></div>
+    `;
+
+    const grid = document.getElementById('moviesGrid');
+    currentMovies.forEach(movie => {
+        const card = createMovieGridCard(movie);
+        grid.appendChild(card);
+    });
+
+  
+    createPagination(totalPages);
+}
+
+function createPagination(totalPages) {
+    const container = document.getElementById('paginationContainer');
+    
+    let paginationHTML = `
+        <nav aria-label="Movie pagination" class="mt-4">
+            <ul class="pagination justify-content-center">
+                <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                    <a class="page-link" href="#" onclick="changePage(${currentPage - 1}); return false;">
+                        <i class="bi bi-chevron-left"></i> Previous
+                    </a>
+                </li>
+    `;
+
+
+    const maxVisiblePages = 5;
+    let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+    if (endPage - startPage < maxVisiblePages - 1) {
+        startPage = Math.max(1, endPage - maxVisiblePages + 1);
+    }
+
+    if (startPage > 1) {
+        paginationHTML += `
+            <li class="page-item">
+                <a class="page-link" href="#" onclick="changePage(1); return false;">1</a>
+            </li>
+        `;
+        if (startPage > 2) {
+            paginationHTML += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+        }
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+        paginationHTML += `
+            <li class="page-item ${i === currentPage ? 'active' : ''}">
+                <a class="page-link" href="#" onclick="changePage(${i}); return false;">${i}</a>
+            </li>
+        `;
+    }
+
+    if (endPage < totalPages) {
+        if (endPage < totalPages - 1) {
+            paginationHTML += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+        }
+        paginationHTML += `
+            <li class="page-item">
+                <a class="page-link" href="#" onclick="changePage(${totalPages}); return false;">${totalPages}</a>
+            </li>
+        `;
+    }
+
+    paginationHTML += `
+                <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                    <a class="page-link" href="#" onclick="changePage(${currentPage + 1}); return false;">
+                        Next <i class="bi bi-chevron-right"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    `;
+
+    container.innerHTML = paginationHTML;
+}
+
+function changePage(page) {
+    const totalPages = Math.ceil(allMovies.length / itemsPerPage);
+    if (page < 1 || page > totalPages) return;
+    
+    currentPage = page;
+    displayMoviesWithPagination();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function createMovieGridCard(movie) {
+    const card = document.createElement('div');
+    card.className = 'movie-card-grid';
+    card.onclick = () => showMovieDetails(movie);
+    
+    card.innerHTML = `
+        ${movie.imdbRating && movie.imdbRating !== 'N/A' ? 
+            `<div class="movie-rating"><i class="bi bi-star-fill me-1"></i>${movie.imdbRating}</div>` : ''}
+        <img src="${movie.Poster !== 'N/A' ? movie.Poster : 'https://via.placeholder.com/300x450?text=No+Poster'}" 
+             alt="${movie.Title}" class="movie-poster">
+        <div class="movie-info-grid">
+            <div class="movie-title-grid">${movie.Title}</div>
+            <div class="movie-year">${movie.Year}</div>
+        </div>
+    `;
+    
+    return card;
+}
 
 function getMovieData() {
     const input = document.getElementById('movieInput').value.trim();
@@ -14,7 +199,7 @@ function getMovieData() {
             icon: 'warning',
             title: 'Empty Input',
             text: 'Please enter a movie name first.',
-            confirmButtonColor: '#667eea'
+            confirmButtonColor: '#ff6b9d'
         });
         return;
     }
@@ -22,10 +207,10 @@ function getMovieData() {
     output.innerHTML = `
         <div class="card shadow-lg border-0">
             <div class="card-body text-center loading">
-                <div class="spinner-border text-light mb-3" role="status">
+                <div class="spinner-border mb-3" role="status">
                     <span class="visually-hidden">Loading...</span>
                 </div>
-                <h4 class="text-white">🔍 Searching for movie...</h4>
+                <h4>🔍 Searching for movie...</h4>
             </div>
         </div>
     `;
@@ -40,68 +225,62 @@ function getMovieData() {
                             <i class="bi bi-film display-1 text-muted mb-3"></i>
                             <h3>Movie Not Found</h3>
                             <p class="text-muted">Please try another search term.</p>
+                            <button class="btn btn-danger mt-3" onclick="loadPopularMovies()">
+                                <i class="bi bi-arrow-left me-2"></i>Back to Popular Movies
+                            </button>
                         </div>
                     </div>
                 `;
                 return;
             }
 
-            output.innerHTML = '';
-            const card = createMovieCard(data);
-            output.innerHTML = card;
+            showMovieDetails(data);
         })
         .catch(err => {
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
                 text: 'Failed to fetch movie data. Please try again.',
-                confirmButtonColor: '#667eea'
+                confirmButtonColor: '#ff6b9d'
             });
             output.innerHTML = '';
         });
 }
 
-function createMovieCard(movie) {
-    const accordionId = `accordion-${movie.imdbID}`;
-    
+function showMovieDetails(movie) {
+    const output = document.getElementById('movieInfo');
     let html = `
-        <div class="card shadow-lg border-0 movie-card">
-            <div class="movie-header">
-                <h2 class="mb-3">${movie.Title}</h2>
-                <div class="movie-meta">
-                    <span class="badge bg-light text-dark"><i class="bi bi-calendar3 me-1"></i>${movie.Year}</span>
-                    <span class="badge bg-light text-dark"><i class="bi bi-clock me-1"></i>${movie.Runtime}</span>
-                    <span class="badge bg-light text-dark"><i class="bi bi-star-fill me-1"></i>${movie.Rated}</span>
-                    <span class="badge bg-light text-dark"><i class="bi bi-film me-1"></i>${movie.Type}</span>
+        <button class="btn btn-danger mb-4" onclick="currentPage=1; loadPopularMovies();">
+            <i class="bi bi-arrow-left me-2"></i>Back to All Movies
+        </button>
+        
+        <div class="card shadow-lg border-0">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    ${movie.Poster !== 'N/A' ? 
+                        `<img src="${movie.Poster}" class="img-fluid rounded-start" alt="${movie.Title}" style="height: 100%; object-fit: cover;">` : 
+                        '<div class="bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 100%;"><i class="bi bi-film" style="font-size: 5rem;"></i></div>'}
                 </div>
-            </div>
-            
-            ${movie.Poster !== 'N/A' ? `
-            <div class="poster-container">
-                <img src="${movie.Poster}" alt="${movie.Title} Poster" onclick="window.open('${movie.Poster}', '_blank')">
-            </div>
-            ` : ''}
-            
-            <div class="card-body">
-                <div class="mb-4">
-                    <input type="text" class="form-control" placeholder="🔍 Search within this card..." 
-                           onkeyup="filterCard('${accordionId}', this.value)">
-                </div>
-                
-                <div id="${accordionId}">
+                <div class="col-md-8">
+                    <div class="card-body p-4">
+                        <h2 class="card-title mb-3">${movie.Title}</h2>
+                        <div class="mb-3">
+                            <span class="badge bg-primary me-2"><i class="bi bi-calendar3 me-1"></i>${movie.Year}</span>
+                            <span class="badge bg-secondary me-2"><i class="bi bi-clock me-1"></i>${movie.Runtime}</span>
+                            <span class="badge bg-info me-2">${movie.Rated}</span>
+                            <span class="badge bg-warning text-dark">${movie.Type}</span>
+                        </div>
     `;
 
-    // Awards Section
     if (movie.Awards && movie.Awards !== 'N/A') {
-        html += `<div class="awards-section">🏆 ${movie.Awards}</div>`;
+        html += `<div class="awards-badge mb-3">🏆 ${movie.Awards}</div>`;
     }
 
-    // Ratings Section
     if (movie.Ratings && movie.Ratings.length > 0) {
         html += `
             <div class="mb-4">
-                <h4 class="mb-3"><i class="bi bi-star-fill text-warning me-2"></i>Ratings</h4>
-                <div class="ratings-grid">
+                <h5><i class="bi bi-star-fill text-warning me-2"></i>Ratings</h5>
+                <div class="ratings-section">
         `;
         
         movie.Ratings.forEach(rating => {
@@ -116,100 +295,33 @@ function createMovieCard(movie) {
         html += `</div></div>`;
     }
 
-    // Categories as Bootstrap Accordion
-    const categories = categorizeMovieData(movie);
-    html += `<div class="accordion" id="movieAccordion">`;
-    
-    let index = 0;
-    for (const [categoryName, categoryData] of Object.entries(categories)) {
-        const collapseId = `collapse-${movie.imdbID}-${index}`;
-        const hasData = Object.values(categoryData).some(val => val && val !== 'N/A');
-        
-        if (hasData) {
-            html += `
-                <div class="accordion-item category-section">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button ${index > 0 ? 'collapsed' : ''}" type="button" 
-                                data-bs-toggle="collapse" data-bs-target="#${collapseId}">
-                            ${categoryName}
-                        </button>
-                    </h2>
-                    <div id="${collapseId}" class="accordion-collapse collapse ${index === 0 ? 'show' : ''}" 
-                         data-bs-parent="#movieAccordion">
-                        <div class="accordion-body">
-            `;
-            
-            for (const [key, value] of Object.entries(categoryData)) {
-                if (value && value !== 'N/A') {
-                    html += `
-                        <div class="info-row row">
-                            <div class="col-md-4 info-label">${key}</div>
-                            <div class="col-md-8 info-value">${value}</div>
-                        </div>
-                    `;
-                }
-            }
-            
-            html += `
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-        index++;
+    if (movie.Plot && movie.Plot !== 'N/A') {
+        html += `
+            <div class="mb-3">
+                <h5>📖 Plot</h5>
+                <p>${movie.Plot}</p>
+            </div>
+        `;
     }
-    
+
+    html += `
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <h6 class="text-muted">Director</h6>
+                <p>${movie.Director}</p>
+            </div>
+            <div class="col-md-6 mb-3">
+                <h6 class="text-muted">Genre</h6>
+                <p>${movie.Genre}</p>
+            </div>
+            <div class="col-md-12 mb-3">
+                <h6 class="text-muted">Cast</h6>
+                <p>${movie.Actors}</p>
+            </div>
+        </div>
+    `;
+
     html += `</div></div></div></div>`;
-    return html;
-}
-
-function categorizeMovieData(movie) {
-    return {
-        '📋 Basic Information': {
-            'Title': movie.Title,
-            'Year': movie.Year,
-            'Released': movie.Released,
-            'Runtime': movie.Runtime,
-            'Genre': movie.Genre,
-            'Type': movie.Type,
-            'Rated': movie.Rated
-        },
-        '🎭 Cast & Crew': {
-            'Director': movie.Director,
-            'Writer': movie.Writer,
-            'Actors': movie.Actors
-        },
-        '📖 Plot & Details': {
-            'Plot': movie.Plot,
-            'Language': movie.Language,
-            'Country': movie.Country
-        },
-        '💰 Box Office & Production': {
-            'Box Office': movie.BoxOffice,
-            'Production': movie.Production,
-            'DVD': movie.DVD,
-            'Website': movie.Website
-        },
-        '🔢 IMDB Information': {
-            'IMDB Rating': movie.imdbRating,
-            'IMDB Votes': movie.imdbVotes,
-            'IMDB ID': movie.imdbID,
-            'Metascore': movie.Metascore
-        }
-    };
-}
-
-function filterCard(accordionId, searchTerm) {
-    const accordion = document.getElementById(accordionId);
-    const items = accordion.querySelectorAll('.info-row, .category-section, .rating-card, .awards-section');
-    const term = searchTerm.toLowerCase();
-
-    items.forEach(item => {
-        const text = item.textContent.toLowerCase();
-        if (text.includes(term)) {
-            item.style.display = '';
-        } else {
-            item.style.display = 'none';
-        }
-    });
+    output.innerHTML = html;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }

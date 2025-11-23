@@ -1,32 +1,37 @@
 body {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    min-height: 100vh;
+    background: #f5f5f5;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+      position: relative;
+}
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("../img/food.png");
+    background-size:auto;
+    opacity: 0.1; /* Change opacity here */
+    z-index: -1;
+}
+.hero-section-meal {
+    background: linear-gradient(135deg, #ff9a56 0%, #ff6b9d 100%);
+    padding: 4rem 0 3rem 0;
+    margin-bottom: 2rem;
 }
 
-.back-button {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    z-index: 1000;
-    border-radius: 50px;
+.btn-danger {
+    background: #ff9a56;
+    border: none;
     font-weight: 600;
     transition: all 0.3s ease;
 }
 
-.back-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3) !important;
-}
-
-.btn-primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border: none;
-    font-weight: 600;
-}
-
-.btn-primary:hover {
-    background: linear-gradient(135deg, #5568d3 0%, #6a3f8f 100%);
+.btn-danger:hover {
+    background: #ff8142;
+    transform: translateY(-2px);
 }
 
 .btn-success {
@@ -39,30 +44,43 @@ body {
     background: linear-gradient(135deg, #0f8578 0%, #2fd46a 100%);
 }
 
+.navbar-dark {
+    background: #2c2c2c !important;
+}
+
+.navbar-brand {
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.navbar-brand:hover {
+    color: #ff9a56 !important;
+}
+
 .nav-pills .nav-link {
-    color: #667eea;
+    color: #ff9a56;
     font-weight: 600;
     border-radius: 10px;
     transition: all 0.3s ease;
 }
 
 .nav-pills .nav-link.active {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #ff9a56 0%, #ff6b9d 100%);
 }
 
 .nav-pills .nav-link:hover:not(.active) {
-    background: rgba(102, 126, 234, 0.1);
+    background: rgba(255, 154, 86, 0.1);
 }
 
 .loading {
     text-align: center;
-    color: white;
     padding: 3rem;
 }
 
 .loading .spinner-border {
     width: 3rem;
     height: 3rem;
+    color: #ff9a56;
 }
 
 .no-results {
@@ -70,9 +88,10 @@ body {
     padding: 3rem;
 }
 
+/* Meals Grid */
 .meals-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 1.5rem;
 }
 
@@ -80,14 +99,14 @@ body {
     background: white;
     border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .meal-card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+    box-shadow: 0 15px 30px rgba(255, 154, 86, 0.3);
 }
 
 .meal-image {
@@ -101,7 +120,7 @@ body {
 }
 
 .meal-title {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 600;
     color: #333;
     margin-bottom: 0.75rem;
@@ -114,8 +133,17 @@ body {
     font-size: 0.85rem;
 }
 
+.badge.bg-primary {
+    background: #ff9a56 !important;
+}
+
+.badge.bg-success {
+    background: #38ef7d !important;
+}
+
+/* Modal Styles */
 .modal-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #ff9a56 0%, #ff6b9d 100%);
 }
 
 .modal-title {
@@ -136,11 +164,11 @@ body {
 }
 
 .detail-section h5 {
-    color: #667eea;
+    color: #ff9a56;
     font-weight: 700;
     margin-bottom: 1rem;
     padding-bottom: 0.5rem;
-    border-bottom: 2px solid #667eea;
+    border-bottom: 2px solid #ff9a56;
 }
 
 .ingredients-grid {
@@ -150,10 +178,10 @@ body {
 }
 
 .ingredient-badge {
-    background: #f8f9fa;
+    background: #fff5f0;
     padding: 0.75rem;
     border-radius: 8px;
-    border-left: 4px solid #667eea;
+    border-left: 4px solid #ff9a56;
     font-size: 0.95rem;
 }
 
@@ -184,7 +212,214 @@ body {
 
 @media (max-width: 768px) {
     .meals-grid {
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    }
+    
+    .nav-pills {
+        flex-direction: column;
+    }
+    
+    .nav-pills .nav-link {
+        margin-bottom: 0.5rem;
+    }
+}
+.hero-section-meal {
+    background: linear-gradient(135deg, #ff9a56 0%, #ff6b9d 100%);
+    padding: 4rem 0 3rem 0;
+    margin-bottom: 2rem;
+}
+
+.btn-danger {
+    background: #ff9a56;
+    border: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-danger:hover {
+    background: #ff8142;
+    transform: translateY(-2px);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    border: none;
+    font-weight: 600;
+}
+
+.btn-success:hover {
+    background: linear-gradient(135deg, #0f8578 0%, #2fd46a 100%);
+}
+
+.navbar-dark {
+    background: #2c2c2c !important;
+}
+
+.navbar-brand {
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.navbar-brand:hover {
+    color: #ff9a56 !important;
+}
+
+.nav-pills .nav-link {
+    color: #ff9a56;
+    font-weight: 600;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.nav-pills .nav-link.active {
+    background: linear-gradient(135deg, #ff9a56 0%, #ff6b9d 100%);
+}
+
+.nav-pills .nav-link:hover:not(.active) {
+    background: rgba(255, 154, 86, 0.1);
+}
+
+.loading {
+    text-align: center;
+    padding: 3rem;
+}
+
+.loading .spinner-border {
+    width: 3rem;
+    height: 3rem;
+    color: #ff9a56;
+}
+
+.no-results {
+    text-align: center;
+    padding: 3rem;
+}
+
+/* Meals Grid */
+.meals-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+}
+
+.meal-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.meal-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(255, 154, 86, 0.3);
+}
+
+.meal-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.meal-info {
+    padding: 1.25rem;
+}
+
+.meal-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.75rem;
+}
+
+.meal-badges .badge {
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+}
+
+.badge.bg-primary {
+    background: #ff9a56 !important;
+}
+
+.badge.bg-success {
+    background: #38ef7d !important;
+}
+
+/* Modal Styles */
+.modal-header {
+    background: linear-gradient(135deg, #ff9a56 0%, #ff6b9d 100%);
+}
+
+.modal-title {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.detail-image {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+}
+
+.detail-section {
+    margin-bottom: 2rem;
+}
+
+.detail-section h5 {
+    color: #ff9a56;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #ff9a56;
+}
+
+.ingredients-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.75rem;
+}
+
+.ingredient-badge {
+    background: #fff5f0;
+    padding: 0.75rem;
+    border-radius: 8px;
+    border-left: 4px solid #ff9a56;
+    font-size: 0.95rem;
+}
+
+.instructions {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 10px;
+    line-height: 1.8;
+    color: #333;
+}
+
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    border-radius: 10px;
+    background: #000;
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+@media (max-width: 768px) {
+    .meals-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     }
     
     .nav-pills {

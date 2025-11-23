@@ -3,87 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Entertainment & Recipe Hub</title>
+    <title>Movie and Meal Hub</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="accest/css/styles.css">
 </head>
 <body>
-    <div class="container py-5">
-        <!-- Header -->
-        <div class="text-center text-white mb-5" data-aos="fade-down">
-            <h1 class="display-2 fw-bold mb-3">🌟 Welcome to Your Hub</h1>
-            <p class="lead fs-4">Discover Movies & Delicious Recipes All in One Place</p>
+    <!-- Navbar -->
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <i class="bi bi-house-door me-2"></i>Home
+            </a>
+            <div class="d-flex gap-3">
+                <a href="movie.html" class="btn btn-outline-light btn-sm">
+                    <i class="bi bi-film me-1"></i>Movies
+                </a>
+                <a href="meal.html" class="btn btn-outline-light btn-sm">
+                    <i class="bi bi-egg-fried me-1"></i>Meals
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid p-0">
+        <!-- Hero Section -->
+        <div class="hero-banner">
+            <div class="container text-center">
+                <h1 class="display-2 fw-bold text-white mb-3">Movie and Meal Hub</h1>
+                <p class="lead text-white mb-4">Discover Amazing Movies and Delicious Recipes</p>
+            </div>
         </div>
 
-        <!-- Cards Container -->
-        <div class="row g-4 mb-5">
-            <!-- Movie Search Card -->
-            <div class="col-lg-6" data-aos="fade-up">
-                <div class="card app-card h-100 border-0 shadow-lg">
-                    <div class="card-header-custom text-center p-5">
-                        <div class="card-icon display-1">🎬</div>
-                    </div>
-                    <div class="card-body p-4">
-                        <h2 class="card-title h3 mb-3">Movie Search</h2>
-                        <p class="card-text text-muted mb-4">Search for any movie and get detailed information instantly</p>
-                        
-                        <ul class="list-unstyled mb-4">
-                            <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i>Search movies by title</li>
-                            <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i>View ratings from IMDB, Rotten Tomatoes & Metacritic</li>
-                            <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i>See cast, crew, and plot details</li>
-                            <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i>Box office information</li>
-                            <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i>High-quality movie posters</li>
-                        </ul>
-                        
-                        <a href="movie.html" class="btn btn-custom btn-lg w-100">
-                            Explore Movies <i class="bi bi-arrow-right ms-2"></i>
-                        </a>
+        <!-- Main Content -->
+        <div class="container py-5">
+            <div class="row g-4">
+                <!-- Movie Hub Card -->
+                <div class="col-lg-6">
+                    <div class="hub-card movie-hub" onclick="location.href='movie.html'">
+                        <div class="hub-header movie-header-bg">
+                            <h2 class="text-white text-center py-4 m-0">Movie Hub</h2>
+                        </div>
+                        <div class="hub-image">
+                            <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=800" 
+                                 alt="Movie Hub" class="img-fluid">
+                        </div>
+                        <div class="hub-content p-4">
+                            <div class="features-list mb-4">
+                                <div class="feature-item">
+                                    <i class="bi bi-search text-danger me-2"></i>
+                                    <span>Search thousands of movies</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="bi bi-star-fill text-warning me-2"></i>
+                                    <span>View ratings and reviews</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="bi bi-people-fill text-primary me-2"></i>
+                                    <span>See cast and crew details</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="bi bi-camera-reels text-success me-2"></i>
+                                    <span>High-quality posters</span>
+                                </div>
+                            </div>
+                            <a href="movie.html" class="btn btn-danger w-100 btn-lg">
+                                <i class="bi bi-film me-2"></i>Explore Movies
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Recipe Finder Card -->
-            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
-                <div class="card app-card h-100 border-0 shadow-lg">
-                    <div class="card-header-custom text-center p-5">
-                        <div class="card-icon display-1">🍽️</div>
-                    </div>
-                    <div class="card-body p-4">
-                        <h2 class="card-title h3 mb-3">Recipe Finder</h2>
-                        <p class="card-text text-muted mb-4">Discover delicious recipes from cuisines around the world</p>
-                        
-                        <ul class="list-unstyled mb-4">
-                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Search recipes by name or ingredient</li>
-                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Browse by category & cuisine</li>
-                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Get random meal suggestions</li>
-                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Step-by-step cooking instructions</li>
-                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Video tutorials for each recipe</li>
-                        </ul>
-                        
-                        <a href="meal.html" class="btn btn-custom-success btn-lg w-100">
-                            Find Recipes <i class="bi bi-arrow-right ms-2"></i>
-                        </a>
+                <!-- Meal Food Hub Card -->
+                <div class="col-lg-6">
+                    <div class="hub-card meal-hub" onclick="location.href='meal.html'">
+                        <div class="hub-header meal-header-bg">
+                            <h2 class="text-white text-center py-4 m-0">Meal Food Hub</h2>
+                        </div>
+                        <div class="hub-image">
+                            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800" 
+                                 alt="Meal Hub" class="img-fluid">
+                        </div>
+                        <div class="hub-content p-4">
+                            <div class="features-list mb-4">
+                                <div class="feature-item">
+                                    <i class="bi bi-search text-danger me-2"></i>
+                                    <span>Browse hundreds of recipes</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="bi bi-egg-fried text-warning me-2"></i>
+                                    <span>Filter by ingredients</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="bi bi-globe text-primary me-2"></i>
+                                    <span>Cuisines from around the world</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="bi bi-play-circle text-success me-2"></i>
+                                    <span>Video cooking tutorials</span>
+                                </div>
+                            </div>
+                            <a href="meal.html" class="btn btn-warning w-100 btn-lg">
+                                <i class="bi bi-egg-fried me-2"></i>Discover Recipes
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Footer -->
-        <div class="text-center text-white mt-5" data-aos="fade-up">
-            <p class="mb-0">Built with <i class="bi bi-heart-fill text-danger"></i> using OMDB API & TheMealDB API</p>
-        </div>
+        <footer class="bg-dark text-white py-4 mt-5">
+            <div class="container text-center">
+                <p class="mb-2">Built with <i class="bi bi-heart-fill text-danger"></i> using OMDB API & TheMealDB API</p>
+                <p class="text-muted small mb-0">© 2024 Movie and Meal Hub. All rights reserved.</p>
+            </div>
+        </footer>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // Initialize AOS animations
-        AOS.init({
-            duration: 800,
-            once: true
-        });
-
         // Keyboard shortcuts
         document.addEventListener('keydown', function(e) {
             if (e.key === '1') {

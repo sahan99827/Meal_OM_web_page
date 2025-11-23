@@ -1,5 +1,6 @@
 const API_KEY = '1c768e4f';
 
+// Popular movies to display on page load
 const POPULAR_MOVIES = [
     'Inception', 'The Dark Knight', 'Interstellar', 'Pulp Fiction', 'The Matrix',
     'Fight Club', 'Forrest Gump', 'The Godfather', 'The Shawshank Redemption', 
@@ -10,13 +11,15 @@ const POPULAR_MOVIES = [
     'The Wolf of Wall Street', 'Django Unchained', 'Inglourious Basterds', 'Kill Bill',
     'The Terminator', 'Aliens', 'Blade Runner', 'The Fifth Element', 'Back to the Future',
     'Raiders of the Lost Ark', 'Die Hard', 'Mad Max', 'Rocky', 'Rambo', 'Joker',
-    'Parasite', 'Get Out', 'A Quiet Place', 'Dunkirk', 'Whiplash', 'La La Land'
+    'Parasite', 'Get Out', 'A Quiet Place', 'Dunkirk', 'Whiplash', 'La La Land',
+    'Black Panther', 'Wonder Woman', 'Aquaman', 'Deadpool', 'Logan', 'Thor'
 ];
 
 let allMovies = [];
 let currentPage = 1;
 const itemsPerPage = 12;
 
+// Load popular movies when page loads
 document.addEventListener('DOMContentLoaded', () => {
     loadPopularMovies();
 });
@@ -30,30 +33,34 @@ async function loadPopularMovies() {
     const output = document.getElementById('movieInfo');
     output.innerHTML = `
         <div class="text-center mb-4">
-            <h3>Popular Movies</h3>
-            <p class="text-muted">Click on any movie to see details</p>
+            <div class="spinner-border text-danger mb-3" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <h4>Loading Popular Movies...</h4>
         </div>
         <div class="movies-grid" id="moviesGrid"></div>
     `;
 
     const grid = document.getElementById('moviesGrid');
-
+    
+    // Show loading placeholders
     for (let i = 0; i < 12; i++) {
         grid.innerHTML += `
             <div class="movie-card-grid">
                 <div class="placeholder-glow">
-                    <div class="placeholder bg-secondary" style="height: 300px; width: 100%;"></div>
+                    <div class="placeholder bg-secondary" style="height: 300px; width: 100%; border-radius: 10px;"></div>
                 </div>
-                <div class="movie-info-grid">
+                <div class="movie-info-grid p-2">
                     <div class="placeholder-glow">
-                        <span class="placeholder col-12"></span>
+                        <span class="placeholder col-12 mb-2"></span>
+                        <span class="placeholder col-8"></span>
                     </div>
                 </div>
             </div>
         `;
     }
 
-
+    // Fetch movies
     const moviePromises = POPULAR_MOVIES.map(title => 
         fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&t=${encodeURIComponent(title)}`)
             .then(res => res.json())
@@ -93,7 +100,7 @@ function displayMoviesWithPagination() {
         grid.appendChild(card);
     });
 
-  
+    // Add pagination controls
     createPagination(totalPages);
 }
 
@@ -110,7 +117,7 @@ function createPagination(totalPages) {
                 </li>
     `;
 
-
+    // Show page numbers
     const maxVisiblePages = 5;
     let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
     let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
@@ -190,7 +197,7 @@ function createMovieGridCard(movie) {
     return card;
 }
 
-function getMovieData() {
+async function getMovieData() {
     const input = document.getElementById('movieInput').value.trim();
     const output = document.getElementById('movieInfo');
 
@@ -207,25 +214,31 @@ function getMovieData() {
     output.innerHTML = `
         <div class="card shadow-lg border-0">
             <div class="card-body text-center loading">
-                <div class="spinner-border mb-3" role="status">
+                <div class="spinner-border text-danger mb-3" role="status">
                     <span class="visually-hidden">Loading...</span>
                 </div>
-                <h4>🔍 Searching for movie...</h4>
+                <h4>🔍 Searching for "${input}"...</h4>
             </div>
         </div>
     `;
 
-    fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&t=${encodeURIComponent(input)}`)
-        .then(res => res.json())
-        .then(data => {
-            if (data.Response === 'False') {
+    try {
+        const response = await fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&t=${encodeURIComponent(input)}`);
+        const data = await response.json();
+        
+        if (data.Response === 'False') {
+            // Try searching by title if exact match fails
+            const searchResponse = await fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=${encodeURIComponent(input)}`);
+            const searchData = await searchResponse.json();
+            
+            if (searchData.Response === 'False' || !searchData.Search) {
                 output.innerHTML = `
                     <div class="card shadow-lg border-0">
-                        <div class="card-body no-results">
+                        <div class="card-body no-results text-center py-5">
                             <i class="bi bi-film display-1 text-muted mb-3"></i>
                             <h3>Movie Not Found</h3>
                             <p class="text-muted">Please try another search term.</p>
-                            <button class="btn btn-danger mt-3" onclick="loadPopularMovies()">
+                            <button class="btn btn-danger mt-3" onclick="currentPage=1; loadPopularMovies();">
                                 <i class="bi bi-arrow-left me-2"></i>Back to Popular Movies
                             </button>
                         </div>
@@ -233,18 +246,58 @@ function getMovieData() {
                 `;
                 return;
             }
+            
+            // Show search results in grid
+            displaySearchResults(searchData.Search);
+            return;
+        }
 
-            showMovieDetails(data);
-        })
-        .catch(err => {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Failed to fetch movie data. Please try again.',
-                confirmButtonColor: '#ff6b9d'
-            });
-            output.innerHTML = '';
+        // Show single movie details
+        showMovieDetails(data);
+    } catch (err) {
+        console.error('Error:', err);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Failed to fetch movie data. Please try again.',
+            confirmButtonColor: '#ff6b9d'
         });
+        loadPopularMovies();
+    }
+}
+
+async function displaySearchResults(searchResults) {
+    const output = document.getElementById('movieInfo');
+    
+    output.innerHTML = `
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h3>Search Results</h3>
+                <p class="text-muted mb-0">Found ${searchResults.length} movies</p>
+            </div>
+            <button class="btn btn-outline-danger" onclick="currentPage=1; loadPopularMovies();">
+                <i class="bi bi-arrow-left me-2"></i>Back to Popular Movies
+            </button>
+        </div>
+        <div class="movies-grid" id="searchGrid"></div>
+    `;
+    
+    const grid = document.getElementById('searchGrid');
+    
+    // Fetch full details for each search result
+    for (const result of searchResults.slice(0, 12)) {
+        try {
+            const response = await fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&i=${result.imdbID}`);
+            const movie = await response.json();
+            
+            if (movie.Response !== 'False') {
+                const card = createMovieGridCard(movie);
+                grid.appendChild(card);
+            }
+        } catch (err) {
+            console.error('Error fetching movie:', err);
+        }
+    }
 }
 
 function showMovieDetails(movie) {
@@ -266,9 +319,9 @@ function showMovieDetails(movie) {
                         <h2 class="card-title mb-3">${movie.Title}</h2>
                         <div class="mb-3">
                             <span class="badge bg-primary me-2"><i class="bi bi-calendar3 me-1"></i>${movie.Year}</span>
-                            <span class="badge bg-secondary me-2"><i class="bi bi-clock me-1"></i>${movie.Runtime}</span>
-                            <span class="badge bg-info me-2">${movie.Rated}</span>
-                            <span class="badge bg-warning text-dark">${movie.Type}</span>
+                            <span class="badge bg-secondary me-2"><i class="bi bi-clock me-1"></i>${movie.Runtime || 'N/A'}</span>
+                            <span class="badge bg-info me-2">${movie.Rated || 'N/A'}</span>
+                            <span class="badge bg-warning text-dark">${movie.Type || 'movie'}</span>
                         </div>
     `;
 
@@ -308,15 +361,15 @@ function showMovieDetails(movie) {
         <div class="row">
             <div class="col-md-6 mb-3">
                 <h6 class="text-muted">Director</h6>
-                <p>${movie.Director}</p>
+                <p>${movie.Director || 'N/A'}</p>
             </div>
             <div class="col-md-6 mb-3">
                 <h6 class="text-muted">Genre</h6>
-                <p>${movie.Genre}</p>
+                <p>${movie.Genre || 'N/A'}</p>
             </div>
             <div class="col-md-12 mb-3">
                 <h6 class="text-muted">Cast</h6>
-                <p>${movie.Actors}</p>
+                <p>${movie.Actors || 'N/A'}</p>
             </div>
         </div>
     `;

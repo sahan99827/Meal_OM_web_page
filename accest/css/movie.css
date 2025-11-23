@@ -2,25 +2,12 @@ body {
     background: #f5f5f5;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     min-height: 100vh;
-      position: relative;
-}
-body::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url("../img/fm.png");
-    background-size:auto 10%;
-    opacity: 0.1; /* Change opacity here */
-    z-index: -1;
 }
 
 .hero-section {
     background: linear-gradient(135deg, #ff6b9d 0%, #c94b4b 100%);
-    padding: 1rem 0 3rem 0;
-    margin-bottom: 1rem;
+    padding: 4rem 0 3rem 0;
+    margin-bottom: 2rem;
 }
 
 .btn-danger {
@@ -33,6 +20,18 @@ body::before {
 .btn-danger:hover {
     background: #ff4081;
     transform: translateY(-2px);
+}
+
+.btn-outline-danger {
+    color: #ff6b9d;
+    border-color: #ff6b9d;
+    font-weight: 600;
+}
+
+.btn-outline-danger:hover {
+    background: #ff6b9d;
+    border-color: #ff6b9d;
+    color: white;
 }
 
 .navbar-dark {
@@ -64,12 +63,12 @@ body::before {
     padding: 3rem;
 }
 
-/* Movie Grid */
+/* Movie Grid - FIXED */
 .movies-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 1.5rem;
-    margin-top: 2rem;
+    margin-top: 1rem;
 }
 
 .movie-card-grid {
@@ -80,6 +79,8 @@ body::before {
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
 .movie-card-grid:hover {
@@ -91,10 +92,13 @@ body::before {
     width: 100%;
     height: 300px;
     object-fit: cover;
+    display: block;
 }
 
 .movie-info-grid {
     padding: 1rem;
+    background: white;
+    flex-grow: 1;
 }
 
 .movie-title-grid {
@@ -104,7 +108,11 @@ body::before {
     margin-bottom: 0.5rem;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    line-height: 1.4;
+    min-height: 2.8em;
 }
 
 .movie-year {
@@ -118,10 +126,12 @@ body::before {
     right: 10px;
     background: rgba(255, 107, 157, 0.95);
     color: white;
-    padding: 0.5rem;
+    padding: 0.5rem 0.75rem;
     border-radius: 8px;
     font-weight: 600;
     font-size: 0.9rem;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 
 /* Modal Styles */
@@ -216,6 +226,76 @@ body::before {
     font-weight: 600;
 }
 
+/* Pagination Styles */
+.pagination {
+    margin-top: 2rem;
+}
+
+.pagination .page-link {
+    color: #ff6b9d;
+    border: 2px solid #e0e0e0;
+    margin: 0 3px;
+    border-radius: 8px;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+}
+
+.pagination .page-link:hover {
+    background: #ff6b9d;
+    color: white;
+    border-color: #ff6b9d;
+    transform: translateY(-2px);
+}
+
+.pagination .page-item.active .page-link {
+    background: linear-gradient(135deg, #ff6b9d 0%, #c94b4b 100%);
+    border-color: #ff6b9d;
+    color: white;
+    box-shadow: 0 5px 15px rgba(255, 107, 157, 0.3);
+}
+
+.pagination .page-item.disabled .page-link {
+    background: #f5f5f5;
+    border-color: #e0e0e0;
+    color: #999;
+}
+
+.pagination .page-link i {
+    font-size: 0.9rem;
+}
+
+/* Smooth scroll */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Item count styling */
+.d-flex.justify-content-between h3 {
+    color: #333;
+    font-weight: 700;
+}
+
+.d-flex.justify-content-between .text-muted {
+    font-size: 0.9rem;
+}
+
+/* Loading placeholder */
+.placeholder {
+    background-color: #e0e0e0;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* Responsive */
 @media (max-width: 768px) {
     .movies-grid {
         grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -224,5 +304,18 @@ body::before {
     
     .movie-poster {
         height: 220px;
+    }
+    
+    .ratings-section {
+        grid-template-columns: 1fr;
+    }
+    
+    .pagination {
+        font-size: 0.85rem;
+    }
+    
+    .pagination .page-link {
+        padding: 0.4rem 0.75rem;
+        margin: 0 2px;
     }
 }

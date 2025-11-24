@@ -1,4 +1,4 @@
-const API_KEY = '1c768e4f';
+const API_KEY = 'd168c0dd';
 
 // Popular movies to display on page load
 const POPULAR_MOVIES = [

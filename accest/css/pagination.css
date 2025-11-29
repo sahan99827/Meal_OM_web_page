@@ -1,4 +1,3 @@
-/* Pagination Styles - Add this to both movie.css and meal.css */
 
 .pagination {
     margin-top: 2rem;
@@ -38,7 +37,6 @@
     font-size: 0.9rem;
 }
 
-/* For Meal Page - Use orange theme */
 .meal-hub .pagination .page-link {
     color: #ff9a56;
 }
@@ -53,12 +51,11 @@
     border-color: #ff9a56;
 }
 
-/* Smooth scroll */
 html {
     scroll-behavior: smooth;
 }
 
-/* Item count styling */
+
 .d-flex.justify-content-between h4 {
     color: #333;
     font-weight: 700;
@@ -68,7 +65,7 @@ html {
     font-size: 0.9rem;
 }
 
-/* Responsive pagination */
+
 @media (max-width: 576px) {
     .pagination {
         font-size: 0.85rem;

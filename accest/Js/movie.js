@@ -175,7 +175,7 @@ function changePage(page) {
     
     currentPage = page;
     displayMoviesWithPagination();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 1380, behavior: 'smooth' });
 }
 
 function createMovieGridCard(movie) {
@@ -376,5 +376,5 @@ function showMovieDetails(movie) {
 
     html += `</div></div></div></div>`;
     output.innerHTML = html;
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 1380, behavior: 'smooth' });
 }

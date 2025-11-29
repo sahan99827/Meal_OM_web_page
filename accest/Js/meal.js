@@ -199,7 +199,7 @@ function changeMealPage(page) {
     
     currentPage = page;
     displayMealsWithPagination();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+     window.scrollTo({ top: 1000, behavior: 'smooth' });
 }
 
 async function searchByName() {
